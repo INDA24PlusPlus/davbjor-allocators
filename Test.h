@@ -6,11 +6,13 @@
 #include <iostream>
 
 struct Result {
+    size_t allocations = 0;
     chrono::time_point<std::chrono::high_resolution_clock> start_time;
     chrono::time_point<std::chrono::high_resolution_clock> end_time;
 
     void Print(){
-        cout << "Time: " << chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count() << "ms\n";
+        cout << "Allocations: " << allocations << "\n";
+        cout << "Time: " << chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count() << "ms\n\n";
     }
 };
 
@@ -20,7 +22,9 @@ class Test {
 
         Result RandomAllocate(Allocator* allocator);
 
-        Result TestAllocate(Allocator* allocator, bool debug, int n);
+        Result TestRandomAllocations(Allocator* allocator, bool debug, int n);
+
+        Result TestAllocations(Allocator* allocator, bool debug, int n);
 
 };
 

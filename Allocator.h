@@ -17,9 +17,12 @@ class Allocator {
 
         virtual void Init() = 0;
 
+        virtual void Reset() = 0;
+
     protected:
         size_t mem_totalsize;
         size_t mem_used;
+        void* mem_start_ptr = nullptr;
 };
 
 #endif

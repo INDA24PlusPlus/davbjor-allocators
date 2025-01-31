@@ -17,11 +17,10 @@ class LinearAllocator : public Allocator {
 
         virtual void Init() override;
 
-        virtual void Reset();
+        virtual void Reset() override;
 
 
     protected:
-        void* mem_start_ptr = nullptr;
         size_t mem_offset;
 
     private:

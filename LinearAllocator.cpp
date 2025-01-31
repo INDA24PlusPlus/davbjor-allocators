@@ -1,21 +1,27 @@
 #include "LinearAllocator.h"
-#include <stdlib.h>
-#include <iostream>
 
-LinearAllocator::LinearAllocator(const size_t mem_size) : Allocator(mem_size) {};
+LinearAllocator::LinearAllocator(const size_t mem_size) : Allocator(mem_size) {
+    Init();
+};
 
 void LinearAllocator::Init(){
+    cout << "Called INIT();\n";
     if(mem_start_ptr != nullptr){
         free(mem_start_ptr);
+        mem_start_ptr = nullptr;
     }
+
+    assert(mem_totalsize != 0 && "Can't Allocate 0 Total Size Memory");
 
     mem_start_ptr = malloc(mem_totalsize);
     mem_offset = 0;
 }
 
 LinearAllocator::~LinearAllocator() {
-    free(mem_start_ptr);
-    mem_start_ptr = nullptr;
+    if(mem_start_ptr){
+        free(mem_start_ptr);
+        mem_start_ptr = nullptr;
+    }
 }
 
 void* LinearAllocator::Allocate(const size_t size, const size_t alignment){
@@ -59,10 +65,8 @@ void LinearAllocator::Free(void* ptr){
 }
 
 void LinearAllocator::Reset(){
-    free(mem_start_ptr);
-    mem_start_ptr = malloc(mem_totalsize);
-    mem_offset = 0;
     mem_used = 0;
+    mem_offset = 0;
 }
 
 void LinearAllocator::PrintState(){

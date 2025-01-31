@@ -3,6 +3,8 @@
 #include <cstddef>
 #include <cassert>
 #include <random>
+#include <stdlib.h>
+#include <iostream>
 
 using namespace std;
 

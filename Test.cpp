@@ -65,7 +65,6 @@ Result Test::TestRandomAllocations(Allocator* allocator, bool debug = false, int
 
 Result Test::TestAllocations(Allocator* allocator, bool debug = false, int n = 1000){
     Result r;
-    //ptr = RandomSize(512);
 
     vector<long long> random_values;
     vector<void*> addresses;
@@ -89,10 +88,10 @@ Result Test::TestAllocations(Allocator* allocator, bool debug = false, int n = 1
     r.end_time = chrono::high_resolution_clock::now();
     r.allocations = addresses.size();
 
-    if(debug){
-        for(int i = 0; i < addresses.size(); i++){
-            cout << random_values[i] << " vs " << *reinterpret_cast<long long*>(addresses[i]) << "\n";
-        }
+    for(int i = 0; i < n; i++){
+        if(addresses[i] == nullptr)break;
+        assert(random_values[i] == *reinterpret_cast<long long*>(addresses[i]) && "Values do not match");
+        if(debug)cout << random_values[i] << " vs " << *reinterpret_cast<long long*>(addresses[i]) << "\n";
     }
     
     allocator->PrintState();
